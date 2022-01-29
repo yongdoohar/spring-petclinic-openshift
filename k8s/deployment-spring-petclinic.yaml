@@ -1,0 +1,26 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: spring-petclinic
+  namespace: hict-ngw-dev
+  labels:
+    app: spring-petclinic
+    app.kubernetes.io/part-of: spring-petclinic-app
+  annotations:
+    alpha.image.policy.openshift.io/resolve-names: '*' # 이미지스트림을 인식 하도록 설정
+    image.openshift.io/triggers: >- # 이미지 변경시 트리거(재배포)
+      [{"from":{"kind":"ImageStreamTag","name":"spring-petclinic:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"spring-petclinic\")].image"}]
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-petclinic
+  template:
+    metadata:
+      labels:
+        app: spring-petclinic
+        deploymentconfig: spring-petclinic
+    spec:
+      containers:
+        - name: spring-petclinic
+          image: spring-petclinic:latest

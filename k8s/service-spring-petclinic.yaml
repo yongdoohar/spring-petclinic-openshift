@@ -1,0 +1,19 @@
+﻿kind: Service
+apiVersion: v1
+metadata:
+  name: spring-petclinic
+  namespace: hict-ngw-dev
+  labels:
+    app: spring-petclinic
+    app.kubernetes.io/part-of: spring-petclinic-app
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: spring-petclinic
+    deploymentconfig: spring-petclinic
+  type: ClusterIP
+  sessionAffinity: None

@@ -1,0 +1,12 @@
+﻿kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: spring-petclinic
+  namespace: hict-ngw-dev
+  labels:
+    app: spring-petclinic
+    app.kubernetes.io/part-of: spring-petclinic-app
+spec:
+  lookupPolicy:
+    local: false
+  dockerImageRepository: registry.dev-nexus.honecloud.co.kr:5000/hict-ngw-dev/spring-petclinic

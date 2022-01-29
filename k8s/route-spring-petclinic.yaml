@@ -1,0 +1,17 @@
+﻿kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: spring-petclinic
+  namespace: hict-ngw-dev
+  labels:
+    app: spring-petclinic
+    app.kubernetes.io/part-of: spring-petclinic-app
+spec:
+  host: spring-petclinic-spring-test-application-ngw.apps.dev.honecloud.co.kr
+  to:
+    kind: Service
+    name: spring-petclinic
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None

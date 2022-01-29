@@ -1,0 +1,20 @@
+﻿apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: spring-petclinic-ngw
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: hict-ngw-dev
+    server: 'https://kubernetes.default.svc'
+  ignoreDifferences:
+    - group: apps
+      jsonPointers:
+        - /spec/template/spec/containers
+      kind: Deployment
+  project: default
+  source:
+    path: ./k8s
+    repoURL: >-
+      http://do-gitlab-ce.apps.apps.dev.honecloud.co.kr/root/spring-petclinic-ngw.git
+    targetRevision: HEAD

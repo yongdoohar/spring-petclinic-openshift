@@ -1,0 +1,29 @@
+﻿kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: spring-petclinic
+  namespace: hict-ngw-dev
+  labels:
+    app: spring-petclinic
+    app.kubernetes.io/part-of: spring-petclinic-app
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'spring-petclinic:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+    type: Docker
+  postCommit: {}
+  source:
+    type: Binary
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: spring-petclinic-generic-webhook-secret
+  runPolicy: Serial

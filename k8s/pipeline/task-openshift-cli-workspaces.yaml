@@ -1,0 +1,24 @@
+﻿apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: openshift-cli-workspaces
+  namespace: hict-ngw-dev
+spec:
+  params:
+    - default:
+        - cd /tmp/src && pwd && ls
+      description: The OpenShift CLI arguments to run
+      name: ARGS
+      type: array
+  steps:
+    - args:
+        - $(params.ARGS)
+      command:
+        - /bin/bash
+        - '-c'
+      image: 'image-registry.openshift-image-registry.svc:5000/openshift/cli:latest'
+      name: oc
+      resources: {}
+  workspaces:
+    - mountPath: /tmp/src
+      name: source

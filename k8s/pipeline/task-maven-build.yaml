@@ -1,0 +1,18 @@
+﻿apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: maven-build
+  namespace: hict-ngw-dev
+spec:
+  steps:
+    - args:
+        - cd /tmp/src && mvn package -Dmaven.test.skip=true
+      command:
+        - /bin/bash
+        - '-c'
+      image: 'registry.dev.honecloud.co.kr:5000/maven:3.6.3-jdk-8'
+      name: patch
+      resources: {}
+  workspaces:
+    - mountPath: /tmp/src
+      name: source
